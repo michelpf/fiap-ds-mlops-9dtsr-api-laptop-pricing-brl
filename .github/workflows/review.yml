@@ -1,0 +1,45 @@
+name: Pull Request Review
+
+on:
+
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'src/**'
+
+jobs:
+  pull-request-review:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::989944764342:role/GithubActionsRole
+          aws-region: us-east-1
+
+      - name: Configure Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Model download
+        run: python -m model_downloader
+
+      - name: Unit testing
+        run: pytest
+
+      - name: Linting
+        run: pylint src
+
+      - name: Build image
+        run: docker build --platform linux/amd64 -t laptop-pricing-api-brl-9dtsr .
