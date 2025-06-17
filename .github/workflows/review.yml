@@ -18,12 +18,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::989944764342:role/GithubActionsRole
-          aws-region: us-east-1
-
       - name: Configure Python environment
         uses: actions/setup-python@v5
         with:
