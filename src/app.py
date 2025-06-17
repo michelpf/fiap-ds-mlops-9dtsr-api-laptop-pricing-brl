@@ -55,7 +55,7 @@ def write_real_data(data, prediction):
 
 def input_metrics(data, prediction):
     """
-    Função para escrever métricas customizadas no Cloudwatch
+    Função para escrever métricas customizadas no Cloudwatch.
 
     Args:
         data (dict): dicionário de dados com todos os atributos.
